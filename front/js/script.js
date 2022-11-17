@@ -5,6 +5,8 @@ fetch("http://localhost:3000/api/products")
         response.json()
         .then(function(products){
             console.log(products)
+            
+            //on parcourt le taableau de produits. Chaque case du tableau est mis au fur
             for (let product of products){
                 prodList.innerHTML += `
                 <a href="./product.html?id=${product._id}">

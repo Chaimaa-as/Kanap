@@ -21,17 +21,15 @@ console.log({idPage});
             response.json()
             .then((product) => {
                 console.log({product});
-                const img = document.createElement("img");
-                img.src = product.imageUrl;
-                img.alt = product.altTxt;
-                imageContainer.appendChild(img);
+                const img = document.createElement("img"); // là je crée juste la balise img 
+                img.src = product.imageUrl; // on set l url de l image dans la balise qu on vient de créer
+                img.alt = product.altTxt; // on set l alt text de l image dans la balise qu on vient de créer
+                imageContainer.appendChild(img); // on injecte la balise qu on a créé dans le container
 
 
                 const prodTitle = document.getElementById("title");
                 const prodPrice = document.getElementById("price");
                 const prodText = document.getElementById("description");
-                const prodContainer = document.querySelector("item__content__titlePrice");
-                const prodDescription = document.getElementById("description");
                 title.innerHTML =product.name;
                 price.innerHTML = product.price;
                 description.innerHTML = product.description;
