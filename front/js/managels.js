@@ -41,6 +41,31 @@ function kanapsSavedInLocalStorage(){
 
 }
 
+// Fonctions------------------------------------------------------------------------------------------------------------- 
+
+function canAddToCart(){
+    if (selectQuantity.value < 1 || selectQuantity.value >=100){
+        alert('Veuillez choisir une quantité valide');
+        return false
+    }
+    
+    if (selectColors.value == null || selectColors.value ==""){
+        alert('Veuillez choisir une couleur valide');
+        return false
+    } 
+    return true;
+}
+/* Conditions pour ajouter les articles au panier : 
+1 : définir une fonction "canAddToCart" pour quantité (if (selectQuantity.value >= 1 && selectQuantity.value <=100))
+2 : définir une fonction "canAddToCart" pour couleur (if (selectColors.value != null && selectColors.value !=""))
+3 : si les conditions sont remplies => OK // TRUE && TRUE => TRUE
+*/
+
+
+// Fonctions FIN-----------------------------------------------------------------------------------------------------------  
+
+
+
 
 // FONCTION POUR METTRE A JOUR LES KANAPS STOCKES DANS LE LOCAL STORAGE (transformer objet JSON en string pour pouvoir le stocker)
 function updateKanapsSavedInLocalStorage(products){
