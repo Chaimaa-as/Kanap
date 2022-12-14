@@ -7,7 +7,7 @@ const totalPriceLabel = document.getElementById("totalPrice");
 
     for(let [id, colors] of Object.entries(productsInCart)){
         console.log(id, colors)
-        fetch("http://localhost:3000/api/products/" +id)
+        fetch("http://localhost:3000/api/products/" + id)
             .then(function(response){
                 response.json()
                 .then(function(product){
@@ -17,7 +17,6 @@ const totalPriceLabel = document.getElementById("totalPrice");
                         nbproducts += parseInt(quantity);
                         totalQtyLabel.innerHTML = nbproducts;
 
-                        console.log(nbproducts)
                         totalprice+=product.price * parseInt(quantity);
                         totalPriceLabel.innerHTML = totalprice;
 
