@@ -18,21 +18,19 @@ console.log({idPage});
 // FIN__VARIABLES GLOBALES --------------------------------------------------------------------------------------------
 
 
-// RECUPERATION, FORMATAGE ET INJECTION----------------------------------------------------------------------------
-
+// Récupérer les produits avec les id associés
     fetch(`http://localhost:3000/api/products/${idPage}`) 
-    // variable globale déclarée précédemment (ligne 15)
     .then((response) => {
-        response.json() // ma réponse (la liste des produits) en "response.json" (cad mon article au format JSON cad format renvoyé par le back-end)
+        response.json() // ma réponse (la liste des produits) au format JSON cad format renvoyé par le back-end
         .then((product) => {
             console.log({product});
-            const img = document.createElement("img"); // là je crée juste la balise img 
-            img.src = product.imageUrl; // on set l url de l image dans la balise qu on vient de créer
-            img.alt = product.altTxt; // on set l alt text de l image dans la balise qu on vient de créer
-            imageContainer.appendChild(img); // on injecte la balise qu on a créé dans le container
+            const img = document.createElement("img"); // créer juste la balise img 
+            img.src = product.imageUrl; // définir l'url de l'image dans la balise img qu'on vient de créer
+            img.alt = product.altTxt; // définir l'alt text de l image dans la balise qu on vient de créer
+            imageContainer.appendChild(img); // injecter la balise qu'on a créé dans le container
 
             
-            // là je récupère et affiche infos produit
+            // Récupérer et afficher infos produit
             const prodTitle = document.getElementById("title"); 
             const prodPrice = document.getElementById("price");
             const prodText = document.getElementById("description");
@@ -40,7 +38,7 @@ console.log({idPage});
             price.innerHTML = product.price;
             description.innerHTML = product.description;
 
-
+            // Récupérer et afficher choix couleurs
             for (let color of product.colors) {
                 console.log(color)
                 const option = document.createElement("option")
@@ -53,11 +51,12 @@ console.log({idPage});
             btnAddProduct.addEventListener("click", function(event){ 
                 if(canAddToCart()){
                     addToCart(idPage, selectColors.value, selectQuantity.value)
+                    alert("L'article a bien été ajouté au panier")
                 } 
                 
                 })
-                // .catch((errorJson) => console.log(errorJson))   
-            })
+        // .catch((errorJson) => console.log(errorJson))   
+        })
 
-                .catch((errorApi) => console.log(errorApi))
-            })
+    .catch((errorApi) => console.log(errorApi))
+    })

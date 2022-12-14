@@ -1,7 +1,7 @@
 const uuid = require('uuid/v1');
 const Product = require('../models/Product');
 
-exports.getAllProducts = (req, res, next) => {
+exports.getAllProducts = (req, res, next) => { //res = response
   Product.find().then(
     (products) => {
       const mappedProducts = products.map((product) => {
