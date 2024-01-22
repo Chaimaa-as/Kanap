@@ -2,16 +2,20 @@ const url = "http://localhost:3000/api/products";
 
 fetch(url)
   .then((res) => res.json())
-  .then((data) => {
-    const imageUrl = data[0].imageUrl;
-    console.log("url de l'image: ", imageUrl);
+  .then((data) => addProducts(data));
 
-    const anchor = document.createElement("a");
-    anchor.href = imageUrl;
-    anchor.text = "super kanap!";
+function addProducts(donnees) {
+  console.log(donnees);
+  const imageUrl = donnees[0].imageUrl;
+  console.log("url de l'image: ", imageUrl);
 
-    const items = document.querySelector("#items");
-    if (items !== null) {
-      items.appendChild(anchor);
-    }
-  });
+  const anchor = document.createElement("a");
+  anchor.href = imageUrl;
+  anchor.text = "super kanap!";
+
+  const items = document.querySelector("#items");
+  if (items !== null) {
+    items.appendChild(anchor);
+    console.log("nous avons bien ajouté le lien");
+  }
+}
