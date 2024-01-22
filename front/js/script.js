@@ -5,14 +5,11 @@ fetch(url)
   .then((data) => addProducts(data));
 
 function addProducts(donnees) {
-  console.log(donnees);
   const imageUrl = donnees[0].imageUrl;
-  console.log("url de l'image: ", imageUrl);
 
   const anchor = document.createElement("a");
   anchor.href = imageUrl;
   anchor.text = "super kanap!";
-
   const items = document.querySelector("#items");
   if (items !== null) {
     items.appendChild(anchor);
