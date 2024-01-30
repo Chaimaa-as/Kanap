@@ -2,28 +2,31 @@ const url = "http://localhost:3000/api/products";
 
 fetch(url)
   .then((res) => res.json())
-  .then((data) => {
-    console.log(data);
-    return addProducts(data);
+  .then((data) => addProducts(data));
+
+function addProducts(canapes) {
+  const id = canapes[0]._id;
+
+  canapes.forEach((canape) => {
+    const { _id, imageUrl, altTxt, name, description } = canape;
+    const anchor = makeAnchor(_id);
+    const article = document.createElement("article");
+    const image = makeImage(imageUrl, altTxt);
+    const h3 = makeH3(name);
+    const p = makeParagraphe(description);
+
+    appendElementsToArticle(article, [image, h3, p]);
+    appendArticleToAnchor(anchor, article);
   });
+}
 
-function addProducts(donnees) {
-  const id = donnees[0]._id;
-  const imageUrl = donnees[0].imageUrl;
-  const altTxt = donnees[0].altTxt;
-  const name = donnees[0].name;
-  const description = donnees[0].description;
-
-  const image = makeImage(imageUrl, altTxt);
-  const anchor = makeAnchor(id);
-  const article = makeArticle();
-  const h3 = makeH3(name);
-  const p = makeParagraphe(description);
-
-  article.appendChild(image);
-  article.appendChild(h3);
-  article.appendChild(p);
-  appendChildren(anchor, article);
+function appendElementsToArticle(article, array) {
+  array.forEach((item) => {
+    article.appendChild(item);
+  });
+  // article.appendChild(image);
+  // article.appendChild(h3);
+  // article.appendChild(p);
 }
 
 function makeAnchor(id) {
@@ -32,19 +35,12 @@ function makeAnchor(id) {
   return anchor;
 }
 
-function appendChildren(anchor, article) {
+function appendArticleToAnchor(anchor, article) {
   const items = document.querySelector("#items");
   if (items !== null) {
     items.appendChild(anchor);
     anchor.appendChild(article);
-    console.log("éléménts à ajouter à items", items);
   }
-}
-
-function makeArticle() {
-  const article = document.createElement("article");
-  console.log(article);
-  return article;
 }
 
 function makeImage(imageUrl, altTxt) {
