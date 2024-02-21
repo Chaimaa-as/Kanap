@@ -1,20 +1,17 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const id = urlParams.get("id");
+if (id != null) {
+  let itemPrice = 0;
+}
 
 fetch(`http://localhost:3000/api/products/${id}`)
   .then((response) => response.json())
   .then((result) => handleData(result));
 
 function handleData(canape) {
-  //   const altTxt = canape.altTxt;
-  //   const colors = canape.colors;
-  //   const description = canape.description;
-  //   const imageUrl = canape.imageUrl;
-  //   const name = canape.name;
-  //   const price = canape.price;
-  //   const _id = canape._id;
   const { altTxt, colors, description, imageUrl, name, price } = canape;
+  itemPrice = price;
   makeImage(imageUrl, altTxt);
   makeTitle(name);
   makePrice(price);
@@ -60,4 +57,30 @@ function makeColors(colors) {
       select.appendChild(option);
     });
   }
+}
+
+const button = document.querySelector("#addToCart");
+if (button != null) {
+  button.addEventListener("click", (e) => {
+    const colorsSelected = document.querySelector("#colors").value;
+    const quantitySelected = document.querySelector("#quantity").value;
+    if (
+      colorsSelected == null ||
+      colorsSelected === "" ||
+      quantitySelected == null ||
+      quantitySelected == 0
+    ) {
+      alert("please select a quantity and a color");
+    }
+
+    const data = {
+      id: id,
+      color: colorsSelected,
+      quantity: Number(quantitySelected),
+      price: itemPrice,
+    };
+
+    localStorage.setItem(id, JSON.stringify(data));
+    window.location.href = "cart.html";
+  });
 }
