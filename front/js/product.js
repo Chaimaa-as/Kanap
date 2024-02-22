@@ -3,6 +3,7 @@ const urlParams = new URLSearchParams(queryString);
 const id = urlParams.get("id");
 if (id != null) {
   let itemPrice = 0;
+  let imgUrl, altText;
 }
 
 fetch(`http://localhost:3000/api/products/${id}`)
@@ -12,6 +13,8 @@ fetch(`http://localhost:3000/api/products/${id}`)
 function handleData(canape) {
   const { altTxt, colors, description, imageUrl, name, price } = canape;
   itemPrice = price;
+  imgUrl = imageUrl;
+  altText = altTxt;
   makeImage(imageUrl, altTxt);
   makeTitle(name);
   makePrice(price);
@@ -63,7 +66,10 @@ const button = document.querySelector("#addToCart");
 if (button != null) {
   button.addEventListener("click", (e) => {
     const colorsSelected = document.querySelector("#colors").value;
+
     const quantitySelected = document.querySelector("#quantity").value;
+    // if (!colorsSelected || !quantitySelected)
+
     if (
       colorsSelected == null ||
       colorsSelected === "" ||
@@ -71,16 +77,22 @@ if (button != null) {
       quantitySelected == 0
     ) {
       alert("please select a quantity and a color");
+      return;
     }
-
-    const data = {
-      id: id,
-      color: colorsSelected,
-      quantity: Number(quantitySelected),
-      price: itemPrice,
-    };
-
-    localStorage.setItem(id, JSON.stringify(data));
+    saveToCart(colorsSelected, quantitySelected);
     window.location.href = "cart.html";
   });
+}
+
+function saveToCart(colorsSelected, quantitySelected) {
+  const data = {
+    id: id,
+    color: colorsSelected,
+    quantity: Number(quantitySelected),
+    price: itemPrice,
+    imageUrl: imgUrl,
+    altTxt: altText,
+  };
+
+  localStorage.setItem(id, JSON.stringify(data));
 }
