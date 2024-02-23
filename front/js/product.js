@@ -63,25 +63,17 @@ function makeColors(colors) {
 }
 
 const button = document.querySelector("#addToCart");
-if (button != null) {
-  button.addEventListener("click", (e) => {
-    const colorsSelected = document.querySelector("#colors").value;
+button.addEventListener("click", handleClick);
 
-    const quantitySelected = document.querySelector("#quantity").value;
-    // if (!colorsSelected || !quantitySelected)
+function handleClick() {
+  const colorsSelected = document.querySelector("#colors").value;
+  const quantitySelected = document.querySelector("#quantity").value;
 
-    if (
-      colorsSelected == null ||
-      colorsSelected === "" ||
-      quantitySelected == null ||
-      quantitySelected == 0
-    ) {
-      alert("please select a quantity and a color");
-      return;
-    }
-    saveToCart(colorsSelected, quantitySelected);
-    window.location.href = "cart.html";
-  });
+  if (isOrderInvalid(colorsSelected, quantitySelected)) {
+    return;
+  }
+  redirectToCart();
+  saveToCart(colorsSelected, quantitySelected);
 }
 
 function saveToCart(colorsSelected, quantitySelected) {
@@ -95,4 +87,21 @@ function saveToCart(colorsSelected, quantitySelected) {
   };
 
   localStorage.setItem(id, JSON.stringify(data));
+}
+
+function isOrderInvalid(colorsSelected, quantitySelected) {
+  // if (!colorsSelected || !quantitySelected)
+  if (
+    colorsSelected == null ||
+    colorsSelected === "" ||
+    quantitySelected == null ||
+    quantitySelected == 0
+  ) {
+    alert("please select a quantity and a color");
+    return true;
+  }
+}
+
+function redirectToCart() {
+  window.location.href = "cart.html";
 }
