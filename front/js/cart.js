@@ -22,17 +22,36 @@ function displayItem(item) {
   article.appendChild(cartItemContent);
   displayArticle(article);
 
-  displayTotalQuantity(item);
+  displayTotalQuantity();
+  displayTotalPrice();
 }
 
-function displayTotalQuantity(item) {
+function displayTotalQuantity() {
   const totalQuantity = document.querySelector("#totalQuantity");
-  totalQuantity.textContent = item.quantity;
+  const total = cart.reduce((total, item) => total + item.quantity, 0);
+  totalQuantity.textContent = total;
 }
-// function makeCardItemContent() {
-//   const div = document.createElement("div");
-//   div.classList.add("cart__item__content");
-// }
+
+function displayTotalPrice() {
+  // let total = 0;
+  const totalPrice = document.querySelector("#totalPrice");
+
+  // Méthode 1
+  // cart.forEach((item) => {
+  //   const totalUnitPrice = item.price * item.quantity;
+  //   total += totalUnitPrice;
+  // total = total + totalUnitPrice;
+  // });
+
+  // Méthode 2 plus élégante (commenter le total = 0 pour que ça marche)
+  const total = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+
+  console.log(total);
+  totalPrice.textContent = total;
+}
 
 function makeCardContent(item) {
   const cardItemContent = document.createElement("div");
@@ -80,10 +99,29 @@ function addQuantityToSettings(settings, item) {
   input.min = "1";
   input.max = "100";
   input.value = item.quantity;
-  // settings.appendChild(input);
+
+  input.addEventListener("input", () =>
+    updatePriceAndQuantity(item.id, input.value, item)
+  );
 
   quantity.appendChild(input);
   settings.appendChild(quantity);
+}
+
+function updatePriceAndQuantity(id, newValue, item) {
+  const itemToUpdate = cart.find((item) => item.id === id);
+  itemToUpdate.quantity = Number(newValue);
+  item.quantity = itemToUpdate.quantity;
+  displayTotalQuantity();
+  displayTotalPrice();
+  saveNewDataToLocalStorage(item);
+}
+
+function saveNewDataToLocalStorage(item) {
+  const dataToSave = JSON.stringify(item);
+  console.log("dataToSave", dataToSave);
+  const key = `${item.id}-${item.color}`;
+  localStorage.setItem(key, dataToSave);
 }
 
 function makeDescription(item) {

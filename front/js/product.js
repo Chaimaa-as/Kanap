@@ -78,6 +78,7 @@ function handleClick() {
 }
 
 function saveToCart(colorsSelected, quantitySelected) {
+  const key = `${id}-${colorsSelected}`;
   const data = {
     id: id,
     color: colorsSelected,
@@ -88,7 +89,7 @@ function saveToCart(colorsSelected, quantitySelected) {
     name: articleName,
   };
 
-  localStorage.setItem(id, JSON.stringify(data));
+  localStorage.setItem(key, JSON.stringify(data));
 }
 
 function isOrderInvalid(colorsSelected, quantitySelected) {
