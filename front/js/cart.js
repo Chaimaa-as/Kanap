@@ -49,7 +49,7 @@ function displayTotalPrice() {
     0
   );
 
-  console.log(total);
+  // console.log(total);
   totalPrice.textContent = total;
 }
 
@@ -70,18 +70,39 @@ function makeSettings(item) {
   settings.classList.add("cart__item__content__settings");
 
   addQuantityToSettings(settings, item);
-  addDeleteToSettings(settings);
+  addDeleteToSettings(settings, item);
   return settings;
 }
 
-function addDeleteToSettings(settings) {
+function addDeleteToSettings(settings, item) {
   const div = document.createElement("div");
   div.classList.add("cart__item__content__settings__delete");
+  div.addEventListener("click", () => deleteItem(item));
 
   const p = document.createElement("p");
   p.textContent = "Supprimer";
   div.appendChild(p);
   settings.appendChild(div);
+}
+
+function deleteItem(item) {
+  const itemToDelete = cart.findIndex(
+    (product) => product.id === item.id && product.color === item.color
+  );
+  cart.splice(itemToDelete, 1);
+  console.log(cart);
+
+  displayTotalPrice();
+  displayTotalQuantity();
+  deleteDataFromLocalStorage(item);
+  deleteArticleFromPage(item);
+}
+
+function deleteArticleFromPage(item) {
+  const articleToDelete = document.querySelector(
+    `article[data-id="${item.id}"][data-color="${item.color}"]`
+  );
+  articleToDelete.remove();
 }
 
 function addQuantityToSettings(settings, item) {
@@ -117,9 +138,15 @@ function updatePriceAndQuantity(id, newValue, item) {
   saveNewDataToLocalStorage(item);
 }
 
+function deleteDataFromLocalStorage(item) {
+  const key = `${item.id}-${item.color}`;
+  console.log("on supprime cette key", key);
+  localStorage.removeItem(key);
+}
+
 function saveNewDataToLocalStorage(item) {
   const dataToSave = JSON.stringify(item);
-  console.log("dataToSave", dataToSave);
+  // console.log("dataToSave", dataToSave);
   const key = `${item.id}-${item.color}`;
   localStorage.setItem(key, dataToSave);
 }
