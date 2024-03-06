@@ -3,6 +3,9 @@ const cart = [];
 retrieveItemsFromLocalStorage();
 cart.forEach((item) => displayItem(item));
 
+const orderButton = document.querySelector("#order");
+orderButton.addEventListener("click", (e) => submitForm(e));
+
 function retrieveItemsFromLocalStorage() {
   const numberOfItemsInLocalStorage = localStorage.length;
   for (let i = 0; i < numberOfItemsInLocalStorage; i++) {
@@ -193,4 +196,89 @@ function makeImageDiv(item) {
   div.appendChild(image);
 
   return div;
+}
+
+function submitForm(e) {
+  e.preventDefault(); // pour pas que ça se rafraichisse dès qu'on clique sur le bouton
+
+  if (cart.length === 0) {
+    alert("veuillez choisir un produit");
+    return;
+  }
+
+  if (isFormInvalid()) return;
+  if (isEmailInvalid()) return;
+
+  const body = makeRequestBody();
+  fetch("http://localhost:3000/api/products/order", {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      const orderId = data.orderId;
+      window.location.href =
+        "/front/html/confirmation.html" + "?orderId=" + orderId;
+      console.log(data);
+    })
+    .catch((err) => console.erreur(err));
+}
+
+function isEmailInvalid() {
+  const email = document.querySelector("#email").value;
+  const regex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+  if (regex.test(email) === false) {
+    alert("veuillez entrer une adresse email valide");
+    return true;
+  }
+  return false;
+}
+
+function isFormInvalid() {
+  const form = document.querySelector(".cart__order__form");
+  const inputs = form.querySelectorAll("input");
+  inputs.forEach((input) => {
+    if (input.value === "") {
+      alert("veuillez compléter tous les champs");
+      return true;
+    }
+    return false;
+  });
+}
+
+function makeRequestBody() {
+  const form = document.querySelector(".cart__order__form");
+  const firstName = form.elements.firstName.value;
+  const lastName = form.elements.lastName.value;
+  const address = form.elements.address.value;
+  const city = form.elements.city.value;
+  const email = form.elements.email.value;
+
+  const body = {
+    contact: {
+      firstName: firstName,
+      lastName: lastName,
+      address: address,
+      city: city,
+      email: email,
+    },
+    products: getIdsFromLocalStorage(),
+  };
+  console.log(body);
+  return body;
+}
+
+function getIdsFromLocalStorage() {
+  const numberOfProducts = localStorage.length;
+  const ids = [];
+  for (let i = 0; i < numberOfProducts; i++) {
+    const key = localStorage.key(i);
+    console.log(key);
+    const id = key.split("-")[0];
+    ids.push(id);
+  }
+  return ids;
 }
