@@ -28,18 +28,28 @@ Dans le cadre de cette mission, un plan de test d'acceptation a été rédigé p
 
 [📄 Voir le Plan de Test (PDF)](./plan-de-test-kanap.pdf)
 
+## 🎓 Soutenance du projet
+
+Dans le cadre de ma formation, ce projet a fait l'objet d'une soutenance orale. Vous pouvez consulter le support de présentation expliquant mon architecture de code, mes choix techniques en JavaScript, et les solutions apportées aux problèmes rencontrés :
+
+[📄 Voir le support de présentation (PDF)](./presentation-kanap.pdf)
+
 ## 💻 Installation locale
 
 Pour faire fonctionner le projet localement, le Front-End et le Back-End doivent être lancés.
 
 ### 1. Cloner le dépôt
+
 `git clone https://github.com/Chaimaa-as/Kanap.git`
 
 ### 2. Démarrer le Back-End (API)
+
 Ouvrez un terminal dans le dossier `back` et lancez :
+
 1. `npm install`
 2. `node server`
-Le serveur fonctionnera sur `http://localhost:3000`.
+   Le serveur fonctionnera sur `http://localhost:3000`.
 
 ### 3. Lancer le Front-End
+
 Ouvrez le fichier `./front/html/index.html` dans votre navigateur (ou via l'extension Live Server sur VS Code).
